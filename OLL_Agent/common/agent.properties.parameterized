@@ -1,0 +1,9 @@
+tw_host={platformUrl}
+tw_port={platformPort}
+AppKey={applicationKey}
+ScanRate=2000
+Name={identifier}
+ComPortId={serialPort}
+SimMode=true
+PinConfig={pinConfigurationFile}
+Debug=false
