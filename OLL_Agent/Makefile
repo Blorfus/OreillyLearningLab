@@ -7,24 +7,11 @@ SDK_CONFIG = -DENABLE_TASKER=1 -DENABLE_FILE_XFER=0 -DENABLE_TUNNELING=0 -DOFFLI
 
 include $(TW_SDK_ROOT)/build/platforms/$(TARGET_PLATFORM)/Makefile.$(TARGET_PLATFORM)
 
-all: lib app
+all: app
 
 app:
 	gcc src/twc_oll_agent.c src/Settings.c src/pinspectre.c src/pinspectre_rPi.c src/geoloc.c src/cJSON.c -g3 $(CC_OPTS) -I$(TW_SRC)/messaging -I$(TW_SRC)/utils -I$(TW_SRC)/porting -I$(TW_SRC)/websocket -I$(TW_SRC)/tls -I$(TW_SRC)/api/ -I$(TW_SRC)/config/ -I./src -I./src/Headers -L./src -L$(TW_LIB) -w -lm -lTw -lsensor -lcurl -lz -lbcm2835 -o twc_agent
-lib:
-	cd $(TW_SDK_ROOT)/build; make PLATFORM=$(TARGET_PLATFORM) BUILD=debug NO_TLS=1
-	cd $(TW_LIB); cp libTw.a $(START_DIR)
-	mkdir $(START_DIR)/Headers
-	cd $(TW_SRC)/api/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/config/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/fileTransfer/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/messaging/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/porting/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/tls/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/utils/; cp *.h $(START_DIR)/Headers/
-	cd $(TW_SRC)/websocket/; cp *.h $(START_DIR)/Headers/
 
 clean:
-	rm -f ./src/libTw.a
 	rm -f ./src/Headers
 	rm -f./twc_agent
