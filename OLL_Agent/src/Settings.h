@@ -16,6 +16,7 @@ typedef struct{
  // int sim_mode;
   char pin_config[60];
   int debug_log;
+  int ipLoc;
 }tw_settings;
 
 int loadSettingsFile(char *fileLocation, tw_settings *settings);

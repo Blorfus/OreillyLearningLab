@@ -7,7 +7,7 @@
 
 int g_fd_settingsFile;
 
-char *settingsNames[9]={"tw_host", "tw_port", "AppKey", "ScanRate", "tw_name", "FAE_BoardEnable", "tw_secure", "PinConfig", "Debug"};
+char *settingsNames[10]={"tw_host", "tw_port", "AppKey", "ScanRate", "tw_name", "FAE_BoardEnable", "tw_secure", "PinConfig", "Debug", "IPLocation"};
 extern int parse_reportPinConfig(char *pin_lbl, char *configStr);
 
 
@@ -88,6 +88,14 @@ int set(char *name, char *value, tw_settings *settings) {
 		}
 	else {
 		set_num(&settings->debug_log, "0");
+		}
+	}
+	else if(strcmp(name, settingsNames[9])==0) {
+	if(strcmp(value, "true")==0) {
+		set_num(&settings->ipLoc, "1");
+		}
+	else {
+		set_num(&settings->ipLoc, "0");
 		}
 	}
    printf("Set:%s v:%s\n", name, value);
