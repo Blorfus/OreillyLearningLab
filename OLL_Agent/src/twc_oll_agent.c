@@ -38,8 +38,6 @@
 #define PIN_LBL_INPUT	    "I"
 #define PIN_LBL_OUTPUT	    "O"
 
-int parse_reportPinConfig(char *pin_lbl, char *configStr);
-
 //*****************************************************************************
 //                 STRUCTS -- Start
 //*****************************************************************************
@@ -111,13 +109,13 @@ void queryFAE(){
 	
 	adt75_measure(&s_temp);
 	mpl_measure(&s_baro);
-	sht21_measure(&s_temprh);
+	
 	adxl_measure(&s_accel);
 	tsl_measure(&s_lux);
 	adc_measure(&s_adc);
 	
 	properties.temp_adt75 = s_temp.temperature*(9.0/5.0)+32.0;
-	properties.temp_sht21 = s_temprh.temperature_f;
+	
 	properties.humidity = s_temprh.humidity;
 	properties.barometer = s_baro.pressure * 0.000295301f;
 	properties.altitude = s_baro.altitude;
@@ -188,7 +186,7 @@ printf("creating property list....%p", inputProplist);
     //We start adding all of our readings to the property list....
 	//FAE I2C Sensors
 	twApi_AddPropertyToList(proplist,"temperature_adt75",twPrimitive_CreateFromNumber(properties.temp_adt75), 0);
-	twApi_AddPropertyToList(proplist,"temperature_sht21",twPrimitive_CreateFromNumber(properties.temp_sht21), 0);
+	
 	twApi_AddPropertyToList(proplist,"humidity",twPrimitive_CreateFromNumber(properties.humidity), 0);
 	twApi_AddPropertyToList(proplist,"barometer",twPrimitive_CreateFromNumber(properties.barometer), 0);
 	twApi_AddPropertyToList(proplist,"altitude",twPrimitive_CreateFromNumber(properties.altitude), 0);
@@ -409,7 +407,7 @@ if(progSets.debug_log==1) {
 	
 	//Register our properties: FAE I2C Sensors	
 	twApi_RegisterProperty(TW_THING, progSets.tw_name, "temperature_adt75", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-	twApi_RegisterProperty(TW_THING, progSets.tw_name, "temperature_sht21", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
+
 	twApi_RegisterProperty(TW_THING, progSets.tw_name, "humidity", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
 	twApi_RegisterProperty(TW_THING, progSets.tw_name, "barometer", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
 	twApi_RegisterProperty(TW_THING, progSets.tw_name, "altitude", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
