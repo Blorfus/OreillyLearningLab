@@ -213,7 +213,11 @@ printf("creating property list....%p", inputProplist);
 	getTWPinConfigs(proplist);	
 	twApi_AddPropertyToList(proplist,"Location",twPrimitive_CreateFromLocation(&properties.Location), 0);
 	//Now that we've added all our properties, we need to send them up to the server.
-	twApi_PushProperties(TW_THING, progSets.tw_name, proplist, -1, FALSE);
+	if (twApi_PushProperties(TW_THING, progSets.tw_name, proplist, -1, FALSE) != TW_OK) {
+        // FIXME: need to print the error message
+        printf("Failed to push properties.\n");
+
+    }
 	//Keepin it clean, no lost memory here...
 	twApi_DeletePropertyList(proplist);
 }
