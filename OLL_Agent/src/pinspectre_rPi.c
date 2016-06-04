@@ -36,7 +36,7 @@ propertyList *getTWPropertyUpdates(propertyList *inputProplist){
    
    for(ctr=0; ctr<PIN_CT; ctr++){
 	localTargetPin=GPIO_MAP[ctr];
-	printf("localTargetPin=%d\n", localTargetPin);
+	//printf("localTargetPin=%d\n", localTargetPin);
 	if(GPIO_STATE[ctr]==PIN_INPUT) {
 		twApi_AddPropertyToList(inputProplist, GPIO_NAMES[ctr], twPrimitive_CreateFromNumber(pin_readValue(localTargetPin)), 0);
 		}
@@ -59,7 +59,7 @@ propertyList *getTWPinConfigs(propertyList *inputConfigList) {
       configRef=getPinConfig(GPIO_NAMES[ctr]);
       strncpy(tmp_config, configRef, 5);
       if(configRef!=NULL){
-	printf("getTWPinConfigs(%s): %s\n", GPIO_NAMES[ctr], tmp_config);
+	//printf("getTWPinConfigs(%s): %s\n", GPIO_NAMES[ctr], tmp_config);
 	  twApi_AddPropertyToList(inputConfigList, tmp_buff, twPrimitive_CreateFromString(configRef, 1),0);
 	  } 
       }
@@ -72,7 +72,7 @@ char *getPinConfig(char *pinName) {
    cJSON *pinNode = getPinNode(pinName);
    cJSON *pinConf=cJSON_GetObjectItem(pinNode, "pinConf");
 
-printf("getPinConfig[%s]: %s\n", pinName, cJSON_Print(pinConf));
+//printf("getPinConfig[%s]: %s\n", pinName, cJSON_Print(pinConf));
     return pinConf->valuestring;
   }
 
@@ -94,7 +94,7 @@ int ctr=0;
   for(ctr=0; ctr<total; ctr++) {
     temp_pinConf=cJSON_GetArrayItem(pinsArray, ctr);
     if(strcmp(temp_pinConf->child->string, pinName)) {
-	printf("getPinNode: %s\n", cJSON_Print(temp_pinConf->child));
+	//printf("getPinNode: %s\n", cJSON_Print(temp_pinConf->child));
         return temp_pinConf->child;
         }
     }
@@ -111,7 +111,7 @@ int configName2Pin_Id(char *configName) {
   newEnd=strrchr(configName, '_');
   len=newEnd-configName;
   strncpy(newName, configName, len);
-printf("configName2Pin_id: newName: %s\n", newName);
+//printf("configName2Pin_id: newName: %s\n", newName);
   return name2Pin_Id(newName);
   }
 
@@ -154,10 +154,10 @@ void registerLocalPinProperties(char *thingName, void *propertyHandler){
   char configName[40];
   
   for(ctr=0; ctr<PIN_CT; ctr++) {
-       printf("Registering Property NAME: %s\n", GPIO_NAMES[ctr]);
+       //printf("Registering Property NAME: %s\n", GPIO_NAMES[ctr]);
        twApi_RegisterProperty(TW_THING, thingName, GPIO_NAMES[ctr], TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
 	snprintf(configName, 40, "%s_Config", GPIO_NAMES[ctr]);
-	printf("Registering Config Property Name: %s\n", configName);
+	//printf("Registering Config Property Name: %s\n", configName);
 	twApi_RegisterProperty(TW_THING, thingName, configName, TW_STRING, NULL, "ALWAYS", 0, propertyHandler, NULL);
     }
 
@@ -178,7 +178,7 @@ void pin_direction(int pin_id, int direction){
 
 
 void pin_writeValue(int pin_id, int value){
-printf("-->WriteValue: %d\n", value);
+//printf("-->WriteValue: %d\n", value);
    if(value==1) {
 	bcm2835_gpio_write(pin_id, HIGH);
 	}
@@ -195,7 +195,7 @@ int pin_readValue(int pin_id){
   int reading;
   bcm2835_gpio_fsel(pin_id, BCM2835_GPIO_FSEL_INPT);
   reading=(int)bcm2835_gpio_lev(pin_id);
-  printf("Reading pin: %d\n", reading);
+  //printf("Reading pin: %d\n", reading);
   return reading;
 }
 
