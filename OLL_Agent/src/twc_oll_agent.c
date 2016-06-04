@@ -370,6 +370,7 @@ void dataCollectionTask(DATETIME now, void * params) {
 void ThingWorxTask() {
 	int prog_err=0;
 
+	twLogger_SetLevel(TW_ERROR);
 if(progSets.debug_log==1) {
 	twLogger_SetLevel(TW_TRACE);
 	twLogger_SetIsVerbose(1);
