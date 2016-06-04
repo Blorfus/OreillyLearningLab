@@ -9,8 +9,11 @@ include $(TW_SDK_ROOT)/build/platforms/$(TARGET_PLATFORM)/Makefile.$(TARGET_PLAT
 
 all: app
 
-app:
+app-insecure:
 	gcc src/twc_oll_agent.c src/Settings.c src/pinspectre.c src/pinspectre_rPi.c src/geoloc.c src/cJSON.c -g3 $(CC_OPTS) -I$(TW_SRC)/messaging -I$(TW_SRC)/utils -I$(TW_SRC)/porting -I$(TW_SRC)/websocket -I$(TW_SRC)/tls -I$(TW_SRC)/api/ -I$(TW_SRC)/config/ -I./src -I./src/Headers -L./src -L$(TW_LIB) -w -lm -lTw -lsensor -lcurl -lz -lbcm2835 -o twc_agent
+
+app:
+	gcc src/twc_oll_agent.c src/Settings.c src/pinspectre.c src/pinspectre_rPi.c src/geoloc.c src/cJSON.c -g3 $(CC_OPTS) -I$(TW_SRC)/messaging -I$(TW_SRC)/utils -I$(TW_SRC)/porting -I$(TW_SRC)/websocket -I$(TW_SRC)/tls -I$(TW_SRC)/api/ -I$(TW_SRC)/config/ -I./src -I./src/Headers -L./src -L$(TW_LIB) -w -lm -lTw-ssl -lsensor -lcurl -lz -lbcm2835 -o twc_agent
 
 clean:
 	rm -f ./src/Headers
