@@ -1,3 +1,7 @@
+//**********************************************************
+// INCLUDES
+//**********************************************************
+
 // Standard includes
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +43,7 @@
 #define PIN_LBL_OUTPUT        "O"
 
 //**********************************************************
-//                 STRUCTS -- Start
+//                 STRUCTS 
 //**********************************************************
 
 typedef struct{
@@ -79,7 +83,7 @@ tsl_t        s_lux;
 location_t  currentLoc;
     
 //**********************************************************
-//                 GLOBAL VARIABLES -- Start
+//                 GLOBAL VARIABLES 
 //**********************************************************
 unsigned long g_ulStatus = 0;
 tw_settings progSets;
@@ -92,13 +96,6 @@ extern void (* const g_pfnVectors[])(void);
 #if defined(ewarm)
 extern uVectorEntry __vector_table;
 #endif
-
-//**********************************************************
-//                 GLOBAL VARIABLES -- End
-//**********************************************************
-
-
-
 
 //**********************************************************
 // queryFAE()
