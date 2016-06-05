@@ -427,28 +427,28 @@ enum msgCodeEnum blinkPin(const char * entityName,
         
 }
 
-//********************************************************************************//
-//                             Data Collection Task()                             //
-//                                                                                //
-//This function gets called at the rate defined in the task creation.  The SDK has//
-// a simple cooperative multitasker, so the function cannot infinitely loop.      //
-// Use of a task like this is optional and not required in a multithreaded        //
-// environment where this functionality could be provided in a separate thread.   //
-//********************************************************************************//
+//**********************************************************
+// Data Collection Task()                             
+// 
+// This function gets called at the rate defined in the task
+// creation.  The SDK has a simple cooperative multitasker, so the
+// function cannot infinitely loop.      Use of a task like this is
+// optional and not required in a multithreaded        environment
+// where this functionality could be provided in a separate thread.   
+//**********************************************************
 #define DATA_COLLECTION_RATE_MSEC 2000
 void dataCollectionTask(DATETIME now, void * params) {
-    
     sendPropertyUpdate(NULL);   
-    
 }
 
 
-//*****************************************************************************//
-//                            ThingWorxTask()                                  //
-//                                                                             //
-//The start of the ThingWorx magic. We start by initializing the SDK and then  //
-//we declare our properties and open a websocket connection to the server.     //
-//*****************************************************************************//
+//**********************************************************
+// ThingWorxTask()                                  
+//                                                                             
+// The start of the ThingWorx magic. We start by initializing the
+// SDK and then  we declare our properties and open a websocket
+// connection to the server.     
+//**********************************************************
 void ThingWorxTask() {
     int prog_err=0;
 
@@ -461,10 +461,13 @@ void ThingWorxTask() {
 
     /* Wait until we have an Internet connection */
     
-        twSleepMsec(5);
+    twSleepMsec(5);
 
     /* Initialize the API */
-    prog_err = twApi_Initialize(progSets.tw_host, (int16_t)progSets.tw_port, TW_URI, progSets.tw_appKey, NULL, MESSAGE_CHUNK_SIZE, MESSAGE_CHUNK_SIZE, TRUE);
+    prog_err = twApi_Initialize(progSets.tw_host, 
+            (int16_t)progSets.tw_port, TW_URI, 
+            progSets.tw_appKey, NULL, MESSAGE_CHUNK_SIZE, 
+            MESSAGE_CHUNK_SIZE, TRUE);
 
     if (prog_err!=0) {
         TW_LOG(TW_ERROR, "Error initializing the API");
@@ -475,64 +478,116 @@ void ThingWorxTask() {
     twApi_SetSelfSignedOk();
 
     /*Register our reset service*/
-    twApi_RegisterService(TW_THING, progSets.tw_name, "Reset", NULL, NULL, TW_NOTHING, NULL, multiServiceHandler, NULL);
+    twApi_RegisterService(TW_THING, progSets.tw_name, 
+            "Reset", NULL, NULL, TW_NOTHING, 
+            NULL, multiServiceHandler, NULL);
+
     /* Register our Blink Pin Service */
-    twDataShape *blink_pin_ds=twDataShape_Create(twDataShapeEntry_Create("pinName","The Pin to Blink",TW_NUMBER));
-    twDataShape_AddEntry(blink_pin_ds, twDataShapeEntry_Create("numberOfBlinks","The number of times to Blink",TW_NUMBER));
-    twApi_RegisterService(TW_THING, progSets.tw_name, "BlinkPin", "Blinks pin(pinNumber) a number of times(blinks)", blink_pin_ds, TW_NOTHING, NULL, blinkPin, NULL);
+    twDataShape *blink_pin_ds = twDataShape_Create(
+            twDataShapeEntry_Create("pinName",
+                                    "The Pin to Blink",
+                                    TW_NUMBER));
+    twDataShape_AddEntry(blink_pin_ds, 
+            twDataShapeEntry_Create("numberOfBlinks",
+                                    "The number of times to Blink",
+                                    TW_NUMBER));
+    twApi_RegisterService(TW_THING, progSets.tw_name, "BlinkPin", 
+            "Blinks pin(pinNumber) a number of times(blinks)", 
+            blink_pin_ds, TW_NOTHING, NULL, blinkPin, NULL);
 
     /* Register our properties */
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "IPAddress", TW_STRING, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "Name", TW_STRING, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "Location", TW_LOCATION, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    //Register our properties: GPIO properties
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "Error", TW_STRING, NULL, "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "IPAddress", TW_STRING, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "Name", TW_STRING, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "Location", TW_LOCATION, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    // Register our properties: GPIO properties
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "Error", TW_STRING, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
     
-    //Register our properties: FAE I2C Sensors    
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "temperature_adt75", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
+    // Register our properties: FAE I2C Sensors    
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "temperature_adt75", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
 
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "humidity", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "barometer", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "altitude", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "light", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "accel_x", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "accel_y", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "accel_z", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "humidity", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "barometer", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "altitude", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "light", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "accel_x", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "accel_y", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "accel_z", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
     
-    //Register our properties: FAE Analog ADC Pins    
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC1", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC2", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC3", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC4", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC5", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC6", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC7", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
-    twApi_RegisterProperty(TW_THING, progSets.tw_name, "ADC8", TW_NUMBER, NULL, "ALWAYS", 0, propertyHandler, NULL);
+    // Register our properties: FAE Analog ADC Pins    
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC1", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC2", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC3", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC4", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC5", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC6", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC7", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
+    twApi_RegisterProperty(TW_THING, progSets.tw_name, 
+            "ADC8", TW_NUMBER, NULL, 
+            "ALWAYS", 0, propertyHandler, NULL);
 
-    //Register our properties: Raspberry Pi specific pins
-      registerLocalPinProperties(progSets.tw_name, propertyHandler);
+    // Register our properties: Raspberry Pi-specific pins
+    registerLocalPinProperties(progSets.tw_name, propertyHandler);
     
-    /* Bind our thing -- Tells the server we're ready to send data with the name specified in the argument*/
+    /* Bind our thing -- Tells the server we're ready to send 
+     * data with the name specified in the argument */
     twApi_BindThing(progSets.tw_name);
 
     /* Connect to server */
     if (!twApi_Connect(CONNECT_TIMEOUT, -1)) {
-
         /* Register our "Data collection Task" with the tasker */
         printf("Starting data Collection Task...\n");
         twApi_CreateTask(200, dataCollectionTask);
-
-        
     } else {
-        printf("ERROR Establishing websocket to %s:%d\r\n", progSets.tw_host, progSets.tw_port);
+        printf("ERROR Establishing websocket to %s:%d\r\n", 
+                progSets.tw_host, progSets.tw_port);
     }
-    //We keep the thread alive so that the Tasker runs and executes our dataCollectionTask on time.
+    // We keep the thread alive so that the Tasker runs and 
+    // executes our dataCollectionTask on time.
     while(1) {
 
         twSleepMsec(5);
     
     }
-    //When we break from the loop on program termination we clean up.
+    // When we break from the loop on program termination 
+    // we clean up.
     printf("Tearing Down Process....\n");
     twApi_UnbindThing(progSets.tw_name);
     twSleepMsec(100);
@@ -541,48 +596,52 @@ void ThingWorxTask() {
     exit(0);
 }
 
-//*****************************************************************************//
-//                            FAE_INIT()                                       //
-//Starts the I2C subsystem and initializes the structures for each sensor      //
-//*****************************************************************************//
+//**********************************************************
+// fae_init()
+//
+// Starts the I2C subsystem and initializes the structures for
+// each sensor     
+//**********************************************************
 
 void fae_init(){
     i2c_init(&i2c, "/dev/i2c-1");
-printf("I2C init complete\n");
+    printf("I2C init complete\n");
     adt75_init(&s_temp, &i2c, 0x48);
-printf("FAE:adt75 init complete\n");
+    printf("FAE:adt75 init complete\n");
     mpl_init(&s_baro, &i2c, 0x60);
-printf("FAE:baro init complete\n");
+    printf("FAE:baro init complete\n");
     sht21_init(&s_temprh, &i2c, 0x40);
-printf("FAE:sht21 init complete\n");
+    printf("FAE:sht21 init complete\n");
     adxl_init(&s_accel);
-printf("FAE:adxl init complete\n");
+    printf("FAE:adxl init complete\n");
     tsl_init(&s_lux, &i2c, 0x29);
-printf("FAE:lux init complete\n");
+    printf("FAE:lux init complete\n");
     adc_init(&s_adc, &i2c, 0x10);
-printf("FAE:adc init complete\n");
+    printf("FAE:adc init complete\n");
 }
 
-//*****************************************************************************//
-//                            MAIN FUNCTION                                    //
-//                                                                             //
-//The main entry point of the program. It initializes the hardware and loads   //
-//the settings files. It then starts the main ThingWorx task to send data.     //
-//*****************************************************************************//
-int main()
-{
+//**********************************************************
+// main() FUNCTION                
+// 
+// The main entry point of the program. It initializes the
+// hardware and loads   the settings files. It then starts the
+// main ThingWorx task to send data.    
+//**********************************************************
+int main() {
 
-    printf("Starting %s v%s", APPLICATION_NAME, APPLICATION_VERSION);
+    printf("Starting %s v%s", 
+            APPLICATION_NAME, APPLICATION_VERSION);
 
     loadSettingsFile("agent.properties", &progSets);
-    if(progSets.FAE_enable==1) 
-        {  
+    if(progSets.FAE_enable==1) {  
         printf("Initializing I2C/FAE....\n");
         fae_init();
-        }
+    }
+
     printf("Initializing other pins....\n");
     initBoardPins();
     readPinConf(progSets.pin_config);
+
     printf("Thing Name: %s\n", progSets.tw_name);
     printf("Thing Server: %s:%d\n", progSets.tw_host, progSets.tw_port);
     printf("Thing AppKey: %s\n", progSets.tw_appKey);
@@ -595,13 +654,12 @@ int main()
         getLocation(&currentLoc);
         properties.Location.longitude = currentLoc.latf;
         properties.Location.latitude = currentLoc.lngf;
-        }
-    else {
+    } else {
         properties.Location.longitude = 0.0;
         properties.Location.latitude = 0.0;
     }
-  //start the Thingworx task that will send the data
+   // start the Thingworx task that will send the data
    ThingWorxTask();
 
-  return 0;
-  }
+   return 0;
+}
