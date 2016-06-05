@@ -71,13 +71,13 @@ typedef struct{
 } local_properties;
 
 // FAE constructs
-i2c_t        i2c;
-adc_t        s_adc;
-adt75_t        s_temp;
-mpl_t        s_baro;
-sht21_t        s_temprh;
-adxl_t        s_accel;
-tsl_t        s_lux;
+i2c_t    i2c;
+adc_t    s_adc;
+adt75_t  s_temp;
+mpl_t    s_baro;
+sht21_t  s_temprh;
+adxl_t   s_accel;
+tsl_t    s_lux;
 
 //External Location struct
 location_t  currentLoc;
@@ -106,20 +106,21 @@ extern uVectorEntry __vector_table;
 // performed, this is the place.
 //**********************************************************
 void queryFAE(){
-    
+
+    // Read the values
     adt75_measure(&s_temp);
     mpl_measure(&s_baro);
     
     adxl_measure(&s_accel);
     tsl_measure(&s_lux);
     adc_measure(&s_adc);
-    
+   
+    // Add the values to the properties data structure.
     properties.temp_adt75 = s_temp.temperature*(9.0/5.0)+32.0;
-    
-    properties.humidity = s_temprh.humidity;
-    properties.barometer = s_baro.pressure * 0.000295301f;
-    properties.altitude = s_baro.altitude;
-    properties.light = s_lux.lux;
+    properties.humidity   = s_temprh.humidity;
+    properties.barometer  = s_baro.pressure * 0.000295301f;
+    properties.altitude   = s_baro.altitude;
+    properties.light      = s_lux.lux;
     properties.x = s_accel.x;
     properties.y = s_accel.y;
     properties.z = s_accel.z;
