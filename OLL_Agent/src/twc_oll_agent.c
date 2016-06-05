@@ -144,14 +144,17 @@ void queryFAE(){
 }
 
 
-//***********************************************************************************//
-//                             writeProperty()                                       //
-//                                                                                   //
-//This function is called automatically whenever a value is set for a property by the//
-//ThingWorx Platform. It consists of a section of if else statements that further    //
-// direct what happens, if anything, when a property is written*                     //
-//***********************************************************************************//
-enum msgCodeEnum writeProperty(const char * propertyName, twInfoTable * value) {
+//**********************************************************
+// writeProperty()
+//
+// This function is called automatically whenever a value is 
+// set for a property by the ThingWorx Platform. It consists 
+// of a section of if else statements that further direct 
+// what happens, if anything, when a property is written
+//**********************************************************
+enum msgCodeEnum writeProperty(const char * propertyName, 
+                               twInfoTable * value) 
+{
     if (!propertyName || !value) return TWX_BAD_REQUEST;
     printf("Got VALUE FROM DI: %s\n", propertyName);
 
@@ -159,97 +162,137 @@ enum msgCodeEnum writeProperty(const char * propertyName, twInfoTable * value) {
         char *pinCmd;    
         twInfoTable_GetString(value, propertyName,0, &pinCmd);
         
-      //  Store pinConfig text in the JSON and set the pin
+        //  Store pinConfig text in the JSON and set the pin
         printf("SETTING VALUE FROM DI: %s\n", propertyName);
         setPinFromConfStr((char *)propertyName, pinCmd);
-         }
-       else if(strstr(propertyName, "GPIO")!=NULL)  {
+    }
+    else if(strstr(propertyName, "GPIO")!=NULL)  {
          double int_val=-1;
          twInfoTable_GetNumber(value, propertyName, 0, &int_val);
          setValueFromPinName((char *)propertyName, (int)int_val);
-       }
-return TWX_SUCCESS;
+    }
+    return TWX_SUCCESS;
 }
 
 
-//***********************************************************************************//
-//                             sendPropertyUpdate()                                  //
-//                                                                                   //
-//This function reads the values from the local struct "properties" and adds         //
-//them to a list of properties that it will send up to the ThingWorx platform        //
-//When it is done adding the values it will send the data.                           //
-//***********************************************************************************//
+//**********************************************************
+// sendPropertyUpdate()
+// 
+// This function reads the values from the local struct 
+// "properties" and adds them to a list of properties 
+// that it will send up to the ThingWorx platform.
+// When it is done adding the values it will send the data.
+//**********************************************************
 void sendPropertyUpdate(propertyList *inputProplist) {
-    //We start by getting the latest data from the FAE sensors
+
+    // We start by getting the latest data from the FAE sensors
     printf("Querying FAE sensors...\n");
     queryFAE();
-    //We declare a propertyList to hold all our new property values
+
+    // We declare a propertyList to hold all our new property values
     propertyList *proplist=NULL;
-printf("creating property list....%p", inputProplist);
-        if (!inputProplist) {
-        proplist = twApi_CreatePropertyList("Hostname",twPrimitive_CreateFromString(properties.hostName, 1), 0);
-        }
+    printf("creating property list....%p", inputProplist);
+    if (!inputProplist) {
+        proplist = twApi_CreatePropertyList("Hostname",
+          twPrimitive_CreateFromString(properties.hostName, 1), 0);
+    }
     else {
-         proplist=inputProplist;
-         twApi_AddPropertyToList(proplist, "HostName", twPrimitive_CreateFromString(properties.hostName, 1), 0);
-         }
+        proplist=inputProplist;
+        twApi_AddPropertyToList(proplist, "HostName",
+          twPrimitive_CreateFromString(properties.hostName, 1), 0);
+    }
     printf("Added Hostname...%p\n", properties.hostName);
-    //We start adding all of our readings to the property list....
-    //FAE I2C Sensors
-    twApi_AddPropertyToList(proplist,"temperature_adt75",twPrimitive_CreateFromNumber(properties.temp_adt75), 0);
+
+    // We start adding all of our readings to the property list....
+    // FAE I2C Sensors
+    twApi_AddPropertyToList(proplist,"temperature_adt75",
+       twPrimitive_CreateFromNumber(properties.temp_adt75), 0);
     
-    twApi_AddPropertyToList(proplist,"humidity",twPrimitive_CreateFromNumber(properties.humidity), 0);
-    twApi_AddPropertyToList(proplist,"barometer",twPrimitive_CreateFromNumber(properties.barometer), 0);
-    twApi_AddPropertyToList(proplist,"altitude",twPrimitive_CreateFromNumber(properties.altitude), 0);
-    twApi_AddPropertyToList(proplist,"light",twPrimitive_CreateFromNumber(properties.light), 0);
-    twApi_AddPropertyToList(proplist,"accel_x",twPrimitive_CreateFromNumber(properties.x), 0);
-    twApi_AddPropertyToList(proplist,"accel_y",twPrimitive_CreateFromNumber(properties.y), 0);
-    twApi_AddPropertyToList(proplist,"accel_z",twPrimitive_CreateFromNumber(properties.z), 0);
+    twApi_AddPropertyToList(proplist,"humidity",
+       twPrimitive_CreateFromNumber(properties.humidity), 0);
+    twApi_AddPropertyToList(proplist,"barometer",
+       twPrimitive_CreateFromNumber(properties.barometer), 0);
+    twApi_AddPropertyToList(proplist,"altitude",
+       twPrimitive_CreateFromNumber(properties.altitude), 0);
+    twApi_AddPropertyToList(proplist,"light",
+        twPrimitive_CreateFromNumber(properties.light), 0);
+    twApi_AddPropertyToList(proplist,"accel_x",
+        twPrimitive_CreateFromNumber(properties.x), 0);
+    twApi_AddPropertyToList(proplist,"accel_y",
+        twPrimitive_CreateFromNumber(properties.y), 0);
+    twApi_AddPropertyToList(proplist,"accel_z",
+        twPrimitive_CreateFromNumber(properties.z), 0);
     
     //FAE Analog ADC Pins    
-    twApi_AddPropertyToList(proplist,"ADC1",twPrimitive_CreateFromNumber(properties.adc[0]), 0);
-    twApi_AddPropertyToList(proplist,"ADC2",twPrimitive_CreateFromNumber(properties.adc[1]), 0);
-    twApi_AddPropertyToList(proplist,"ADC3",twPrimitive_CreateFromNumber(properties.adc[2]), 0);
-    twApi_AddPropertyToList(proplist,"ADC4",twPrimitive_CreateFromNumber(properties.adc[3]), 0);
-    twApi_AddPropertyToList(proplist,"ADC5",twPrimitive_CreateFromNumber(properties.adc[4]), 0);
-    twApi_AddPropertyToList(proplist,"ADC6",twPrimitive_CreateFromNumber(properties.adc[5]), 0);
-    twApi_AddPropertyToList(proplist,"ADC7",twPrimitive_CreateFromNumber(properties.adc[6]), 0);
-    twApi_AddPropertyToList(proplist,"ADC8",twPrimitive_CreateFromNumber(properties.adc[7]), 0);
+    twApi_AddPropertyToList(proplist,"ADC1",
+        twPrimitive_CreateFromNumber(properties.adc[0]), 0);
+    twApi_AddPropertyToList(proplist,"ADC2",
+        twPrimitive_CreateFromNumber(properties.adc[1]), 0);
+    twApi_AddPropertyToList(proplist,"ADC3",
+        twPrimitive_CreateFromNumber(properties.adc[2]), 0);
+    twApi_AddPropertyToList(proplist,"ADC4",
+        twPrimitive_CreateFromNumber(properties.adc[3]), 0);
+    twApi_AddPropertyToList(proplist,"ADC5",
+        twPrimitive_CreateFromNumber(properties.adc[4]), 0);
+    twApi_AddPropertyToList(proplist,"ADC6",
+        twPrimitive_CreateFromNumber(properties.adc[5]), 0);
+    twApi_AddPropertyToList(proplist,"ADC7",
+        twPrimitive_CreateFromNumber(properties.adc[6]), 0);
+    twApi_AddPropertyToList(proplist,"ADC8",
+        twPrimitive_CreateFromNumber(properties.adc[7]), 0);
     
-    
-    twApi_AddPropertyToList(proplist,"IPAddress",twPrimitive_CreateFromString(properties.IPAddress, 1), 0);
+    twApi_AddPropertyToList(proplist,"IPAddress",
+        twPrimitive_CreateFromString(properties.IPAddress, 1), 0);
+
     printf("Added IP Address...%p\n", properties.IPAddress);
     printf("Staring Board Specific properties...%p\n", proplist);
-    getTWPropertyUpdates(proplist); //send up board specific properties with current readings
+
+    // send up board specific properties with current readings:
+    getTWPropertyUpdates(proplist); 
     getTWPinConfigs(proplist);    
-    twApi_AddPropertyToList(proplist,"Location",twPrimitive_CreateFromLocation(&properties.Location), 0);
-    //Now that we've added all our properties, we need to send them up to the server.
-    if (twApi_PushProperties(TW_THING, progSets.tw_name, proplist, -1, FALSE) != TW_OK) {
-        // FIXME: need to print the error message
+    twApi_AddPropertyToList(proplist,"Location",
+        twPrimitive_CreateFromLocation(&properties.Location), 0);
+    
+    // Now that we've added all our properties, we need to send 
+    // them up to the server.
+    if (twApi_PushProperties(TW_THING, progSets.tw_name, 
+                             proplist, -1, FALSE) != TW_OK) 
+    {
         printf("Failed to push properties.\n");
 
     }
-    //Keepin it clean, no lost memory here...
+    // Keepin it clean, no lost memory here...
     twApi_DeletePropertyList(proplist);
 }
 
 
 
 
-//***********************************************************************************//
-//                             propertyHandler()                                     //
-//                                                                                   //
-//This function is called when the server sends a request for a property write or a  //
-//property read. Property write is exactly as it sounds, the server has a new value  //
-//for the property and it should be set here in the software. In the case of a pin   //
-//it could be a new state(HIGH/LOW). Property reads on the other hand are a mechanism//
-//to get the latest value for a specific property, like a direct query.              //
-//***********************************************************************************//
-enum msgCodeEnum propertyHandler(const char * entityName, const char * propertyName,  twInfoTable ** value, char isWrite, void * userdata) {
+//**********************************************************
+//  propertyHandler()            
+//                                                          
+// This function is called when the server sends a request for a
+// property write or a  property read. Property write is exactly
+// as it sounds, the server has a new value for the property and
+// it should be set here in the software. In the case of a pin it
+// could be a new state(HIGH/LOW). Property reads on the other
+// hand are a mechanism to get the latest value for a specific
+// property, like a direct query.             
+//***********************************************************
+enum msgCodeEnum propertyHandler(const char * entityName, 
+        const char * propertyName,  twInfoTable ** value, 
+        char isWrite, void * userdata) 
+{
     char * asterisk = "*";
+
     if (!propertyName) propertyName = asterisk;
-    printf("propertyHandler - Function called for Entity %s, Property %s\r\n", entityName, propertyName);
-    TW_LOG(TW_TRACE,"propertyHandler - Function called for Entity %s, Property %s", entityName, propertyName);
+
+    printf("propertyHandler - Function called for " 
+            "Entity %s, Property %s\r\n", 
+            entityName, propertyName);
+    TW_LOG(TW_TRACE,"propertyHandler - Function called " 
+            "for Entity %s, Property %s", 
+            entityName, propertyName);
     if (value) {
         if (isWrite && *value) {
             /* Property Writes */
@@ -257,11 +300,21 @@ enum msgCodeEnum propertyHandler(const char * entityName, const char * propertyN
             return writeProperty(propertyName, *value);
         } else {
             /* Property Reads */
-            if (strcmp(propertyName, "Name") == 0) *value = twInfoTable_CreateFromString(propertyName, properties.hostName, TRUE);
-                    else if (strcmp(propertyName, "IPAddress") == 0) *value = twInfoTable_CreateFromString(propertyName, properties.IPAddress, TRUE);
-            else if (strcmp(propertyName, "Location") == 0) *value = twInfoTable_CreateFromLocation(propertyName, &properties.Location);
-
-            else return TWX_NOT_FOUND;
+            if (strcmp(propertyName, "Name") == 0)  {
+                *value = twInfoTable_CreateFromString(propertyName, 
+                        properties.hostName, TRUE);
+            }
+            else if (strcmp(propertyName, "IPAddress") == 0) {
+                 *value = twInfoTable_CreateFromString(propertyName, 
+                         properties.IPAddress, TRUE);
+            }
+            else if (strcmp(propertyName, "Location") == 0) {
+                *value = twInfoTable_CreateFromLocation(propertyName,
+                        &properties.Location);
+            }
+            else {
+                return TWX_NOT_FOUND;
+            }
         }
         return TWX_SUCCESS;
     } else {
@@ -270,12 +323,13 @@ enum msgCodeEnum propertyHandler(const char * entityName, const char * propertyN
     }
 }
 
-//**********************************************************************************//
-//                             resetTask()                                          //
-//                                                                                  //
-//This function is invoked when the resetTask service is called from the server. It //
-//will stop the agent from executing and perform a clean exit.                      //
-//**********************************************************************************//
+//**********************************************************
+// resetTask() 
+//                                        
+// This function is invoked when the resetTask service is called
+// from the server. It will stop the agent from executing and
+// perform a clean exit.
+//**********************************************************
 void resetTask(DATETIME now, void * params) {
     TW_LOG(TW_FORCE,"shutdownTask - Shutdown service called.  SYSTEM IS SHUTTING DOWN");
     twApi_UnbindThing(progSets.tw_name);
