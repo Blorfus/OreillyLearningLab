@@ -331,30 +331,38 @@ enum msgCodeEnum propertyHandler(const char * entityName,
 // perform a clean exit.
 //**********************************************************
 void resetTask(DATETIME now, void * params) {
-    TW_LOG(TW_FORCE,"shutdownTask - Shutdown service called.  SYSTEM IS SHUTTING DOWN");
+    TW_LOG(TW_FORCE,"shutdownTask - Shutdown service called. "
+            "SYSTEM IS SHUTTING DOWN");
     twApi_UnbindThing(progSets.tw_name);
     twSleepMsec(100);
     twApi_Delete();
     twLogger_Delete();
 }
 
-//**********************************************************************************//
-//                             multiServiceHandler()                                //
-//                                                                                  //
-//This function acts as a catchall for multiple services that could be called from  //
-//the server. In this particular case we are only responding to the Reset service.  //
-//Upon invocation we hand off control by spawning a new task to actually perform    //
-//the reset of the system. Other services could be acted upon with more logic.      //
-//**********************************************************************************//
-enum msgCodeEnum multiServiceHandler(const char * entityName, const char * serviceName, twInfoTable * params, twInfoTable ** content, void * userdata) {
+//**********************************************************
+// multiServiceHandler() 
+//
+// This function acts as a catchall for multiple services that
+// could be called from  the server. In this particular case we are
+// only responding to the Reset service.  Upon invocation we hand
+// off control by spawning a new task to actually perform    the
+// reset of the system. Other services could be acted upon with
+// more logic.      
+//**********************************************************
+enum msgCodeEnum multiServiceHandler(const char * entityName, 
+        const char * serviceName, twInfoTable * params, 
+        twInfoTable ** content, void * userdata) 
+{
     TW_LOG(TW_TRACE,"multiServiceHandler - Function called");
     if (!content) {
-        TW_LOG(TW_ERROR,"multiServiceHandler - NULL content pointer");
+        TW_LOG(TW_ERROR,
+                "multiServiceHandler - NULL content pointer");
         return TWX_BAD_REQUEST;
     }
     if (strcmp(entityName, progSets.tw_name) == 0) {
         if (strcmp(serviceName, "Reset") == 0) {
-            /* Create a task to handle the shutdown so we can respond gracefully */
+            /* Create a task to handle the shutdown 
+             * so we can respond gracefully */
             twApi_CreateTask(1, resetTask);
         }
         return TWX_NOT_FOUND;
@@ -362,55 +370,60 @@ enum msgCodeEnum multiServiceHandler(const char * entityName, const char * servi
     return TWX_NOT_FOUND;
 }
 
-//*********************************************************************************//
-//                             blinkPin()                                          //
-//                                                                                 //
-//This function is called whenever a request is received from the server to invoke //
-//the blinkPin service. It takes two arguments, the pin to blink and how many times//
-//it should blink the pin. A blink is defined on a pin by toggling it's state at   //
-//least twice, ON-OFF-ON or LOW-HIGH-LOW.                                          //
-//*********************************************************************************//
-enum msgCodeEnum blinkPin(const char * entityName, const char * serviceName, twInfoTable * params, twInfoTable ** content, void * userdata) {
-char *pinName=NULL;
-//double pinNumber;
-double blinkct=0;
-int pin_id=-1;
-pid_t child_pid=0;
+//**********************************************************
+//                             blinkPin()                                          
+//                                                                                 
+// This function is called whenever a request is received from the
+// server to invoke the blinkPin service. It takes two arguments,
+// the pin to blink and how many times it should blink the pin. A
+// blink is defined on a pin by toggling its state at   least
+// twice, ON-OFF-ON or LOW-HIGH-LOW.                                          
+//**********************************************************
+enum msgCodeEnum blinkPin(const char * entityName, 
+        const char * serviceName, twInfoTable * params, 
+        twInfoTable ** content, void * userdata) 
+{
+    char *pinName=NULL;
+    //double pinNumber;
+    double blinkct=0;
+    int pin_id=-1;
+    pid_t child_pid=0;
 
-         TW_LOG(TW_TRACE,"BlinkPinService - Function called");
-         if (!params || !content) {
-                 TW_LOG(TW_ERROR,"BlinkPinService - NULL params or content pointer");
-                 return TWX_BAD_REQUEST;
-         }
+    TW_LOG(TW_TRACE,"BlinkPinService - Function called");
+    if (!params || !content) {
+        TW_LOG(TW_ERROR,
+                "BlinkPinService - NULL params or content pointer");
+        return TWX_BAD_REQUEST;
+    }
          
-         twInfoTable_GetString(params, "pinName", 0, &pinName);
-         twInfoTable_GetNumber(params, "numberOfBlinks", 0, &blinkct);
-         pin_id=name2Pin_Id(pinName);
-         if(pin_id>0) {
-            child_pid=fork();
-            if(child_pid!=0) {
-                printf("Spawned new process for blinks: %d\n", child_pid);
-                *content = twInfoTable_CreateFromNumber("result", blinkct);
-                return TWX_SUCCESS;
-                }
-            else {
-              
-             for(blinkct=blinkct; blinkct>0; blinkct--){
+    twInfoTable_GetString(params, "pinName", 0, &pinName);
+    twInfoTable_GetNumber(params, "numberOfBlinks", 0, &blinkct);
+    pin_id=name2Pin_Id(pinName);
+    if(pin_id>0) {
+        child_pid=fork();
+        if(child_pid!=0) {
+            printf("Spawned new process for blinks: %d\n", child_pid);
+            *content = twInfoTable_CreateFromNumber("result", blinkct);
+            return TWX_SUCCESS;
+        }
+        else {
+            for(blinkct=blinkct; blinkct>0; blinkct--){
                 pin_writeValue(pin_id, PIN_HIGH);
                 sleep(1);
                 pin_writeValue(pin_id, PIN_LOW);
                 sleep(1);
                 printf("blink ct: %f\n", blinkct);
-                }
-                printf("Quitting Child process\n");
-                exit(0);
-              }
             }
-            else {
-                TW_LOG(TW_ERROR,"BlinkPinService - %s is not a known pin", pinName);
-                }
-         *content = twInfoTable_CreateFromNumber("result", blinkct);
-        return TWX_SUCCESS;
+            printf("Quitting Child process\n");
+            exit(0);
+        }
+    }
+    else {
+        TW_LOG(TW_ERROR,
+                "BlinkPinService - %s is not a known pin", pinName);
+    }
+    *content = twInfoTable_CreateFromNumber("result", blinkct);
+    return TWX_SUCCESS;
         
 }
 
