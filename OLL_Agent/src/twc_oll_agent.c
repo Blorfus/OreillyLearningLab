@@ -20,7 +20,7 @@
 #include "fae/sht21.h"
 #include "fae/adxl362.h"
 #include "fae/tsl2561.h"
-#include "fae/adc.h"
+#include "fae/adc_led.h"
 #include "geoloc.h"
 
 // ThingWorx C SDK includes
@@ -396,8 +396,8 @@ enum msgCodeEnum blinkPin(const char * entityName,
          
     twInfoTable_GetString(params, "pinName", 0, &pinName);
     twInfoTable_GetNumber(params, "numberOfBlinks", 0, &blinkct);
-    pin_id=name2Pin_Id(pinName);
-    if(pin_id>0) {
+ //   pin_id=name2Pin_Id(pinName);
+/*    if(pin_id>0) { */
         child_pid=fork();
         if(child_pid!=0) {
             printf("Spawned new process for blinks: %d\n", child_pid);
@@ -406,20 +406,22 @@ enum msgCodeEnum blinkPin(const char * entityName,
         }
         else {
             for(blinkct=blinkct; blinkct>0; blinkct--){
-                pin_writeValue(pin_id, PIN_HIGH);
+				adc_led_on(&s_adc);
+					//pin_writeValue(pin_id, PIN_HIGH);
                 sleep(1);
-                pin_writeValue(pin_id, PIN_LOW);
+				adc_led_off(&s_adc);
+					//pin_writeValue(pin_id, PIN_LOW);
                 sleep(1);
                 printf("blink ct: %f\n", blinkct);
             }
             printf("Quitting Child process\n");
             exit(0);
         }
-    }
+   /* }
     else {
         TW_LOG(TW_ERROR,
                 "BlinkPinService - %s is not a known pin", pinName);
-    }
+    } */
     *content = twInfoTable_CreateFromNumber("result", blinkct);
     return TWX_SUCCESS;
         
