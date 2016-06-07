@@ -1,6 +1,6 @@
-//**********************************************************
+//**********************************************************/
 // INCLUDES
-//**********************************************************
+//**********************************************************/
 
 // Standard includes
 #include <stdlib.h>
@@ -28,9 +28,9 @@
 #include "twLogger.h"
 #include "twApi.h"
 
-//**********************************************************
+//**********************************************************/
 // MACROS
-//**********************************************************
+//**********************************************************/
 
 #define APPLICATION_NAME        "O'Reilly Learning Lab Agent"
 #define APPLICATION_VERSION     "1.0.0"
@@ -42,9 +42,9 @@
 #define PIN_LBL_INPUT        "I"
 #define PIN_LBL_OUTPUT        "O"
 
-//**********************************************************
+//**********************************************************/
 //                 STRUCTS 
-//**********************************************************
+//**********************************************************/
 
 typedef struct{
     int direction;
@@ -82,9 +82,9 @@ tsl_t    s_lux;
 //External Location struct
 location_t  currentLoc;
     
-//**********************************************************
+//**********************************************************/
 //                 GLOBAL VARIABLES 
-//**********************************************************
+//**********************************************************/
 unsigned long g_ulStatus = 0;
 tw_settings progSets;
 propertyList *g_pinConf  = NULL;
@@ -97,14 +97,14 @@ extern void (* const g_pfnVectors[])(void);
 extern uVectorEntry __vector_table;
 #endif
 
-//**********************************************************
+//**********************************************************/
 // queryFAE()
 //
 // Accesses the FAE board's sensors and stores the retrieved
 // value in a local struct  
 // If the unit changes or other calculations need to be 
 // performed, this is the place.
-//**********************************************************
+//**********************************************************/
 void queryFAE(){
 
     // Read the values
@@ -142,14 +142,14 @@ void queryFAE(){
 }
 
 
-//**********************************************************
+//**********************************************************/
 // writeProperty()
 //
 // This function is called automatically whenever a value is 
 // set for a property by the ThingWorx Platform. It consists 
 // of a section of if else statements that further direct 
 // what happens, if anything, when a property is written
-//**********************************************************
+//**********************************************************/
 enum msgCodeEnum writeProperty(const char * propertyName, 
                                twInfoTable * value) 
 {
@@ -173,14 +173,14 @@ enum msgCodeEnum writeProperty(const char * propertyName,
 }
 
 
-//**********************************************************
+//**********************************************************/
 // sendPropertyUpdate()
 // 
 // This function reads the values from the local struct 
 // "properties" and adds them to a list of properties 
 // that it will send up to the ThingWorx platform.
 // When it is done adding the values it will send the data.
-//**********************************************************
+//**********************************************************/
 void sendPropertyUpdate(propertyList *inputProplist) {
 
     // We start by getting the latest data from the FAE sensors
@@ -266,7 +266,7 @@ void sendPropertyUpdate(propertyList *inputProplist) {
 
 
 
-//**********************************************************
+//**********************************************************/
 //  propertyHandler()            
 //                                                          
 // This function is called when the server sends a request for a
@@ -276,7 +276,7 @@ void sendPropertyUpdate(propertyList *inputProplist) {
 // could be a new state(HIGH/LOW). Property reads on the other
 // hand are a mechanism to get the latest value for a specific
 // property, like a direct query.             
-//***********************************************************
+//***********************************************************/
 enum msgCodeEnum propertyHandler(const char * entityName, 
         const char * propertyName,  twInfoTable ** value, 
         char isWrite, void * userdata) 
@@ -321,13 +321,13 @@ enum msgCodeEnum propertyHandler(const char * entityName,
     }
 }
 
-//**********************************************************
+//**********************************************************/
 // resetTask() 
 //                                        
 // This function is invoked when the resetTask service is called
 // from the server. It will stop the agent from executing and
 // perform a clean exit.
-//**********************************************************
+//**********************************************************/
 void resetTask(DATETIME now, void * params) {
     TW_LOG(TW_FORCE,"shutdownTask - Shutdown service called. "
             "SYSTEM IS SHUTTING DOWN");
@@ -337,7 +337,7 @@ void resetTask(DATETIME now, void * params) {
     twLogger_Delete();
 }
 
-//**********************************************************
+//**********************************************************/
 // multiServiceHandler() 
 //
 // This function acts as a catchall for multiple services that
@@ -346,7 +346,7 @@ void resetTask(DATETIME now, void * params) {
 // off control by spawning a new task to actually perform    the
 // reset of the system. Other services could be acted upon with
 // more logic.      
-//**********************************************************
+//**********************************************************/
 enum msgCodeEnum multiServiceHandler(const char * entityName, 
         const char * serviceName, twInfoTable * params, 
         twInfoTable ** content, void * userdata) 
@@ -368,7 +368,7 @@ enum msgCodeEnum multiServiceHandler(const char * entityName,
     return TWX_NOT_FOUND;
 }
 
-//**********************************************************
+//**********************************************************/
 //                             blinkPin()                                          
 //                                                                                 
 // This function is called whenever a request is received from the
@@ -376,7 +376,7 @@ enum msgCodeEnum multiServiceHandler(const char * entityName,
 // the pin to blink and how many times it should blink the pin. A
 // blink is defined on a pin by toggling its state at   least
 // twice, ON-OFF-ON or LOW-HIGH-LOW.                                          
-//**********************************************************
+//**********************************************************/
 enum msgCodeEnum blinkPin(const char * entityName, 
         const char * serviceName, twInfoTable * params, 
         twInfoTable ** content, void * userdata) 
@@ -427,7 +427,7 @@ enum msgCodeEnum blinkPin(const char * entityName,
         
 }
 
-//**********************************************************
+//**********************************************************/
 // Data Collection Task()                             
 // 
 // This function gets called at the rate defined in the task
@@ -435,20 +435,20 @@ enum msgCodeEnum blinkPin(const char * entityName,
 // function cannot infinitely loop.      Use of a task like this is
 // optional and not required in a multithreaded        environment
 // where this functionality could be provided in a separate thread.   
-//**********************************************************
+//**********************************************************/
 #define DATA_COLLECTION_RATE_MSEC 2000
 void dataCollectionTask(DATETIME now, void * params) {
     sendPropertyUpdate(NULL);   
 }
 
 
-//**********************************************************
+//**********************************************************/
 // ThingWorxTask()                                  
 //                                                                             
 // The start of the ThingWorx magic. We start by initializing the
 // SDK and then  we declare our properties and open a websocket
 // connection to the server.     
-//**********************************************************
+//**********************************************************/
 void ThingWorxTask() {
     int prog_err=0;
 
@@ -596,12 +596,12 @@ void ThingWorxTask() {
     exit(0);
 }
 
-//**********************************************************
+//**********************************************************/
 // fae_init()
 //
 // Starts the I2C subsystem and initializes the structures for
 // each sensor     
-//**********************************************************
+//**********************************************************/
 
 void fae_init(){
     i2c_init(&i2c, "/dev/i2c-1");
@@ -620,13 +620,13 @@ void fae_init(){
     printf("FAE:adc init complete\n");
 }
 
-//**********************************************************
+//**********************************************************/
 // main() FUNCTION                
 // 
 // The main entry point of the program. It initializes the
 // hardware and loads   the settings files. It then starts the
 // main ThingWorx task to send data.    
-//**********************************************************
+//**********************************************************/
 int main() {
 
     printf("Starting %s v%s", 
