@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities build="b484" majorVersion="7" minorVersion="1" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="0" schemaVersion="910">
+    <ApplicationKeys>
+        <ApplicationKey clientName="" description="" documentationContent="" expirationDate="2116-01-23T07:13:48.581Z" homeMashup="" ipWhitelist="" keyId="bc5c2649-f10b-4617-9f42-77ef5137f5d8" lastModifiedDate="2016-06-03T09:25:26.105-07:00" name="ADI_Appkey" projectName="" tags="Applications:ADI_FAE;Applications:OLL" userNameReference="Administrator">
+            <Owner name="Administrator" type="User"/>
+            <avatar/>
+            <DesignTimePermissions>
+                <Create/>
+                <Read/>
+                <Update/>
+                <Delete/>
+                <Metadata/>
+            </DesignTimePermissions>
+            <RunTimePermissions/>
+            <VisibilityPermissions>
+                <Visibility/>
+            </VisibilityPermissions>
+            <ConfigurationTables/>
+            <ConfigurationChanges>
+                <ConfigurationChange changeAction="CREATE" changeReason="header : name : updated, userNameReference : updated&#10;" timestamp="2016-02-15T23:13:48.606-08:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2016-02-15T23:15:34.780-08:00" user="Administrator"/>
+                <ConfigurationChange changeAction="FORCEEDIT" changeReason="" timestamp="2016-05-30T12:55:46.113-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2016-06-03T09:06:17.826-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="CREATE" changeReason="" timestamp="2016-06-03T09:25:26.105-07:00" user="Administrator"/>
+            </ConfigurationChanges>
+        </ApplicationKey>
+    </ApplicationKeys>
+</Entities>

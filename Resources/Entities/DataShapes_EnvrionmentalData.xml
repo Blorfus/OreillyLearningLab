@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities build="b484" majorVersion="7" minorVersion="1" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="0" schemaVersion="910">
+    <DataShapes>
+        <DataShape baseDataShape="" description="" documentationContent="&lt;p&gt;&lt;br&gt;&lt;/p&gt;" homeMashup="" lastModifiedDate="2016-06-08T12:23:07.506-07:00" name="EnvrionmentalData" projectName="" tags="Applications:OLL;Applications:OLL_CONTENT">
+            <Owner name="Administrator" type="User"/>
+            <avatar/>
+            <DesignTimePermissions>
+                <Create/>
+                <Read/>
+                <Update/>
+                <Delete/>
+                <Metadata/>
+            </DesignTimePermissions>
+            <RunTimePermissions/>
+            <VisibilityPermissions>
+                <Visibility/>
+            </VisibilityPermissions>
+            <ConfigurationTables/>
+            <FieldDefinitions>
+                <FieldDefinition baseType="NUMBER" description="" name="Barometer" ordinal="4"/>
+                <FieldDefinition baseType="NUMBER" description="" name="Humidity" ordinal="3"/>
+                <FieldDefinition aspect.units="Lux" baseType="NUMBER" description="" name="Light" ordinal="5"/>
+                <FieldDefinition baseType="NUMBER" description="" name="Temperature1" ordinal="1"/>
+                <FieldDefinition baseType="NUMBER" description="" name="Temperature2" ordinal="2"/>
+            </FieldDefinitions>
+            <ConfigurationChanges>
+                <ConfigurationChange changeAction="CREATE" changeReason="header : name : updated, tags : updated&#10;fields : Temperature1 : Added, Temperature2 : Added, Humidity : Added, Barometer : Added&#10;" timestamp="2016-05-30T15:14:07.207-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="fields : Light : Added&#10;" timestamp="2016-06-01T13:46:01.687-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="CREATE" changeReason="" timestamp="2016-06-03T09:25:26.044-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;documentation : updated&#10;" timestamp="2016-06-08T12:23:07.506-07:00" user="Administrator"/>
+            </ConfigurationChanges>
+        </DataShape>
+    </DataShapes>
+</Entities>

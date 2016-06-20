@@ -1,1 +1,1 @@
-readme.txt
+This directory contains Entity files for the Thingworx Server. Entity files are XML represenations of objects that reside in the the Server. They can be imported across versions and instances. You will need to load all of them in for the lab. 

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities build="b484" majorVersion="7" minorVersion="1" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="0" schemaVersion="910">
+    <ThingTemplates>
+        <ThingTemplate baseThingTemplate="RemoteThing" description="" documentationContent="&lt;p&gt;&amp;nbsp;&lt;/p&gt;&#10;" effectiveThingPackage="RemoteThing" homeMashup="" lastModifiedDate="2016-06-08T12:22:53.050-07:00" name="RPiwFAE" projectName="" tags="Applications:OLL;Applications:OLL_CONTENT" thingPackage="" valueStream="FAEData">
+            <Owner name="Administrator" type="User"/>
+            <avatar/>
+            <DesignTimePermissions>
+                <Create/>
+                <Read/>
+                <Update/>
+                <Delete/>
+                <Metadata/>
+            </DesignTimePermissions>
+            <RunTimePermissions/>
+            <VisibilityPermissions>
+                <Visibility/>
+            </VisibilityPermissions>
+            <ConfigurationTables/>
+            <PropertyBindings/>
+            <RemotePropertyBindings>
+                <RemotePropertyBinding foldType="NONE" name="accel_x" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="accel_y" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="accel_z" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC1" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC2" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC3" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC4" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC5" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC6" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC7" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="ADC8" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="altitude" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="barometer" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="humidity" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="light" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="Location" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="temperature_adt75" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+                <RemotePropertyBinding foldType="NONE" name="temperature_sht21" pushThreshold="0.0" pushType="VALUE" sourceName="" timeout="0"/>
+            </RemotePropertyBindings>
+            <RemoteServiceBindings/>
+            <RemoteEventBindings/>
+            <AlertConfigurations>
+                <AlertDefinitions name="accel_x"/>
+                <AlertDefinitions name="accel_y"/>
+                <AlertDefinitions name="accel_z"/>
+                <AlertDefinitions name="ADC1"/>
+                <AlertDefinitions name="ADC2"/>
+                <AlertDefinitions name="ADC3"/>
+                <AlertDefinitions name="ADC4"/>
+                <AlertDefinitions name="ADC5"/>
+                <AlertDefinitions name="ADC6"/>
+                <AlertDefinitions name="ADC7"/>
+                <AlertDefinitions name="ADC8"/>
+                <AlertDefinitions name="altitude"/>
+                <AlertDefinitions name="barometer"/>
+                <AlertDefinitions name="humidity"/>
+                <AlertDefinitions name="light"/>
+                <AlertDefinitions name="Location"/>
+                <AlertDefinitions name="temperature_adt75"/>
+                <AlertDefinitions name="temperature_sht21"/>
+            </AlertConfigurations>
+            <ThingShape>
+                <PropertyDefinitions>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="accel_x" ordinal="7"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="accel_y" ordinal="8"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="accel_z" ordinal="9"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC1" ordinal="10"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC2" ordinal="11"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC3" ordinal="12"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC4" ordinal="13"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC5" ordinal="14"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC6" ordinal="15"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC7" ordinal="16"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="ADC8" ordinal="17"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="altitude" ordinal="5"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="barometer" ordinal="4"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="humidity" ordinal="3"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="light" ordinal="6"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="LOCATION" category="" description="" isLocalOnly="false" name="Location" ordinal="18"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="temperature_adt75" ordinal="1"/>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="true" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="temperature_sht21" ordinal="2"/>
+                </PropertyDefinitions>
+                <ServiceDefinitions>
+                    <ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="GetEnvironmentalData">
+                        <ResultType aspect.dataShape="EnvrionmentalData" baseType="INFOTABLE" description="" name="result" ordinal="0"/>
+                        <ParameterDefinitions/>
+                    </ServiceDefinition>
+                </ServiceDefinitions>
+                <EventDefinitions/>
+                <ServiceMappings/>
+                <ServiceImplementations>
+                    <ServiceImplementation description="" handlerName="Script" name="GetEnvironmentalData">
+                        <ConfigurationTables>
+                            <ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0">
+                                <DataShape>
+                                    <FieldDefinitions>
+                                        <FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/>
+                                    </FieldDefinitions>
+                                </DataShape>
+                                <Rows>
+                                    <Row>
+                                        <code><![CDATA[var newRow = new Object();
+newRow.Temperature1 = me.temperature_adt75
+newRow.Temperature2 = me.temperature_sht21
+newRow.Humidity = me.humidity
+newRow.Barometer = me.barometer
+newRow.Light = me.light
+
+var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "EnvrionmentalData"
+};
+
+// CreateInfoTableFromDataShape(infoTableName:STRING("InfoTable"), dataShapeName:STRING):INFOTABLE(EnvrionmentalData)
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+
+result.AddRow(newRow);
+
+
+
+]]></code>
+                                    </Row>
+                                </Rows>
+                            </ConfigurationTable>
+                        </ConfigurationTables>
+                    </ServiceImplementation>
+                </ServiceImplementations>
+                <Subscriptions/>
+            </ThingShape>
+            <ImplementedShapes/>
+            <SharedConfigurationTables/>
+            <InstanceDesignTimePermissions>
+                <Create/>
+                <Read/>
+                <Update/>
+                <Delete/>
+                <Metadata/>
+            </InstanceDesignTimePermissions>
+            <InstanceRunTimePermissions/>
+            <InstanceVisibilityPermissions>
+                <Visibility/>
+            </InstanceVisibilityPermissions>
+            <ConfigurationChanges>
+                <ConfigurationChange changeAction="CREATE" changeReason="header : name : updated, baseThingTemplate : updated, tags : updated&#10;documentation : updated&#10;properties : temperature_adt75 : Added, temperature_sht21 : Added, humidity : Added, barometer : Added, altitude : Added, light : Added, accel_x : Added, accel_y : Added, accel_z : Added, ADC1 : Added, ADC2 : Added, Updated, ADC3 : Added, ADC4 : Added, ADC5 : Added, ADC6 : Added, ADC7 : Added, ADC : Added&#10;" timestamp="2016-05-30T14:01:50.576-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : ADC : removed, ADC8 : Added&#10;" timestamp="2016-05-30T14:03:30.361-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T14:05:02.751-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="documentation : updated&#10;services :  : Input parameter DeviceName Added, GetEnvironmentalData : Inputs updated, Code Updated, Output Updated, Service Added&#10;" timestamp="2016-05-30T15:08:33.189-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T15:09:20.809-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : GetEnvironmentalData : Input parameter DeviceName Updated, Inputs updated&#10;" timestamp="2016-05-30T15:12:34.855-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : GetEnvironmentalData : Output Updated, Code Updated&#10;" timestamp="2016-05-30T15:19:09.909-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T15:19:15.512-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : GetEnvironmentalData : Code Updated&#10;" timestamp="2016-05-30T15:22:31.117-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T15:22:35.981-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : GetEnvironmentalData : Code Updated&#10;" timestamp="2016-05-30T15:25:01.940-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T15:25:26.656-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T16:42:27.985-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-05-30T16:43:16.603-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : valueStream : updated&#10;" timestamp="2016-05-30T16:52:53.887-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : temperature_adt75 : Updated, temperature_sht21 : Updated, humidity : Updated, barometer : Updated, altitude : Updated, light : Updated, accel_x : Updated, accel_y : Updated, accel_z : Updated&#10;" timestamp="2016-05-30T16:54:20.582-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : Location : Added&#10;" timestamp="2016-05-30T17:24:49.530-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : GetEnvironmentalData : Code Updated&#10;" timestamp="2016-06-01T13:46:29.696-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-06-01T13:46:43.628-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-06-01T13:46:49.204-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : temperature_adt75 : Updated, temperature_sht21 : Updated, humidity : Updated, barometer : Updated, altitude : Updated, light : Updated, accel_x : Updated, accel_y : Updated, accel_z : Updated&#10;" timestamp="2016-06-02T22:10:32.812-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="FORCEEDIT" changeReason="" timestamp="2016-06-03T07:17:36.291-07:00" user="drobear"/>
+                <ConfigurationChange changeAction="CREATE" changeReason="" timestamp="2016-06-03T09:25:26.090-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : ADC8 : Updated, Location : Updated, ADC7 : Updated, temperature_adt75 : Updated, temperature_sht21 : Updated, humidity : Updated, barometer : Updated, altitude : Updated, light : Updated, accel_x : Updated, accel_y : Updated, accel_z : Updated, ADC1 : Updated, ADC2 : Updated, ADC3 : Updated, ADC4 : Updated, ADC5 : Updated, ADC6 : Updated&#10;" timestamp="2016-06-03T10:49:21.716-07:00" user="Administrator"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="visibility permissions : updated&#10;design time permissions : updated&#10;" timestamp="2016-06-06T07:44:58.078-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="run time permissions : updated&#10;" timestamp="2016-06-06T07:45:27.343-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="run time permissions : updated&#10;" timestamp="2016-06-06T07:45:53.390-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2016-06-06T07:45:56.987-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="visibility permissions : updated&#10;" timestamp="2016-06-06T07:55:04.759-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="design time permissions : updated&#10;run time permissions : updated&#10;" timestamp="2016-06-06T07:59:44.241-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="FORCEEDIT" changeReason="" timestamp="2016-06-07T12:03:03.402-07:00" user="astevenson"/>
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2016-06-08T12:22:53.050-07:00" user="Administrator"/>
+            </ConfigurationChanges>
+        </ThingTemplate>
+    </ThingTemplates>
+</Entities>
